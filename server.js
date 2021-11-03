@@ -19,3 +19,23 @@ console.log("Welcome to the Employee Tracker Application.",
 "This application utilizes Node.js, Inquirer and MySQL to allow users to manage a company's employee database\n",
 "Users have the option to view all of the company's departments, roles and employees, as well as add new department(s), role(s), and employee(s).\n",
 "Finally, users can update a company's list of current employee(s) or quit the application");
+
+function Prompt() {
+    inquirer.prompt([
+        {
+        type: "list",
+        message: "What would you like to do?",
+        name: "options",
+        choices: [
+                    "View All Departments?",
+                    "View All Roles?",
+                    "View All Employee?",
+                    "Add a Department?",
+                    "Add a Role?",
+                    "Add an Employee?",
+                    "Update an Employee Role?",
+                    "Quit"
+        ]}])
+    };
+
+    Prompt();
