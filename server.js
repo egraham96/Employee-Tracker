@@ -29,13 +29,32 @@ function Prompt() {
         choices: [
                     "View All Departments?",
                     "View All Roles?",
-                    "View All Employee?",
+                    "View All Employees?",
                     "Add a Department?",
                     "Add a Role?",
                     "Add an Employee?",
                     "Update an Employee Role?",
                     "Quit"
-        ]}])
+        ]}]).then((data) => {
+            choice = data.type;
+            if (choice === 'View All Departments?') {
+                viewDepartments()
+            }if (choice === 'View All Roles?') {
+                viewRoles()
+            }if (choice === 'View All Employees?') {
+                viewEmployees()
+            }if (choice === 'Add a Department?') {
+                    addDept()
+            }if (choice === 'Add a Role?') {
+                    addRole()
+            }if (choice === 'Add an Employee?') {
+                    addEmp()
+            }if (choice === 'Update an Employee Role?') {
+                    updateRole()
+            }if (choice === 'Quit') {
+                Quit()
+            } else { internInput() }
+        })
     };
 
     Prompt();
