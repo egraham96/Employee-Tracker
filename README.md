@@ -1,7 +1,7 @@
 # Homework Assignment 12-Employee Tracker
 
 ## Description:
-This week's homework required us to create a command-line application that allows users to manage a company's employee database using Node.js, Inquirer, and MySQL. Users have options to view all departments, view all roles, view all employees, add new department(s, add new role(s), add new employee(s), update current employee(s) or quit the application.
+This week's homework required us to create command-line application that utilizes Node.js, Inquirer and MySQL to allow users to manage a company's employee database. Users have the option to view all of the company's departments, roles and employees, as well as add new department(s), role(s), and employee(s). Finally, users can update a company's list of current employee(s) or quit the application.
 
 ## Installation Instructions:
 First, clone this repository. Navigate to the directory containing repository in your terminal. In your terminal, enter "npm install" to install all of the application's dependencies. 
