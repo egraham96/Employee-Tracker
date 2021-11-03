@@ -1,0 +1,20 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "This week's homework required us to create a command-line application that allows users to manage a company's employee database using Node.js, Inquirer, and MySQL. Users have options to view all departments, view all roles, view all employees, add new department(s, add new role(s), add new employee(s), update current employee(s) or quit the application.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egraham96/Employee-Tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/egraham96/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/egraham96/Employee-Tracker#readme"
+}
