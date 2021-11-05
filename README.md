@@ -17,7 +17,7 @@ First, clone this repository. Navigate to the directory containing repository in
 * [Link to GitHub Repo](https://github.com/egraham96/Employee-Tracker)
 
 ## Preview of Working Site:
-![Screenshot of Deployed Application](Develop/Assets/ScreenshotofDeployedApplication.PNG)
+![Screenshot of Deployed Application](Assets/ScreenshotofDeployedApplication.PNG)
 
 [Video Showing How Application Can Be Used](https://drive.google.com/file/d/1wdyNE25-Ajihqkbtn06rYIpnfbU3bH2x/view)
 
