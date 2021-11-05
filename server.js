@@ -1,5 +1,6 @@
 //Require all NPM dependencies needed for application
 //const express = require('express');
+require('dotenv').config()
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
@@ -13,9 +14,9 @@ const PORT = process.env.PORT || 3020;
 //Connect to MySQL Database
 const db = mysql.createConnection(
     {
-        host: 'localhost',
-        user: 'root',
-        password: 'newlove',
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASS,
         database: 'employee_db'
     },
     console.log(`Connected to employee_db database on port ${PORT}`)
