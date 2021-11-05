@@ -3,7 +3,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
-//const PORT = process.env.PORT || 3020;
+const PORT = process.env.PORT || 3020;
 //const app = express();
 
 // Express middleware
@@ -18,7 +18,7 @@ const db = mysql.createConnection(
         password: 'newlove',
         database: 'employee_db'
     },
-    console.log('Connected to employee_db database.')
+    console.log(`Connected to employee_db database on port ${PORT}`)
 );
 
 console.log("Welcome to the Employee Tracker Application.",
@@ -49,28 +49,28 @@ const Prompt = () => {
             let option = data.option;
             //console.log(option);
             if (option == 'View All Departments?') {
-                console.log("view depts");
+                //console.log("view depts");
                 viewDepartments();
             } else if (option == 'View All Roles?') {
-                console.log("view roles");
+                //console.log("view roles");
                 viewRoles();
             } else if (option == 'View All Employees?') {
-                console.log("view emp");
+                //console.log("view emp");
                 viewEmployees();
             } else if (option == 'Add a Department?') {
-                console.log("add dept");
+                //console.log("add dept");
                 addDept();
             } else if (option == 'Add a Role?') {
-                console.log("add role")
-                //addRole()
+                //console.log("add role")
+                addRole()
             } else if (option == 'Add an Employee?') {
-                console.log("add emp")
-                //addEmp()
+                //console.log("add emp")
+                addEmp()
             } else if (option == 'Update an Employee Role?') {
-                console.log("update emp role")
-                //updateRole()
+                //console.log("update emp role")
+                updateRole()
             } else if (option == 'Quit') {
-                console.log("quit")
+                //console.log("quit")
                 Quit();
             } else {
                 console.log("Something has gone wrong")
@@ -81,23 +81,25 @@ const Prompt = () => {
 function viewDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
         if (err) throw error;
-        console.log(results);
+        console.table(results);
         Prompt();
     });
 }
 
 function viewRoles() {
-    db.query('SELECT * FROM role', function (err, results) {
+    db.query(`SELECT roles.id, roles.title, roles.salary FROM roles
+    JOIN department ON department.id = roles.department_id
+    ORDER BY roles.id`, function (err, results) {
         if (err) throw error;
-        console.log(results);
+        console.table(results);
         Prompt();
     });
 }
 
 function viewEmployees() {
-    db.query('SELECT * FROM employee', function (err, results) {
-        if (err) throw error;
-        console.log(results);
+    db.query('SELECT * FROM employees', function (err, results) {
+        if (err) throw err;
+        console.table(results);
         Prompt();
     });
 }
@@ -111,7 +113,86 @@ function addDept() {
         }
     ]).then(function (data) {
         db.query("INSERT INTO department SET ?", {
-            name: data.newdept
+            dept_name: data.newdept
+        },
+            function (err) {
+                if (err) throw err
+                console.table(data);
+                Prompt();
+            }
+        )
+
+    })
+}
+
+
+function addRole() {
+    db.query(`SELECT department.id, department.dept_name FROM department`, (err, results) => {
+    const deptlist = results.map(({ dept_name, id }) => ({ name: dept_name, value: id }));
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'What is the title of the role?'
+        },
+        {
+            type: "input",
+            message: "What is the salary of the new role?",
+            name: "salary"
+          },
+              {
+            type: "list",
+            message: "Please choose the department for the role?",
+            name: "dept",
+            choices: deptlist
+          }
+    ]).then(function (data) {
+        db.query("INSERT INTO roles SET ?", {
+            title: data.title,
+            salary:data.salary,
+            department_id: data.dept,
+
+        },
+            function (err) {
+                if (err) throw err
+                console.log("New Role Entered");
+                Prompt();
+            }
+        )
+
+    });
+});
+}
+
+function addEmp() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "first",
+            message: "What is the employee's first name?"
+        },
+        {
+            type: "input",
+            name: "last",
+            message: "What is the employee's last name?"
+          },
+          {
+            type: "input",
+            name: "managerid",
+            message: "What is the Manager ID for this employee ?",
+          },
+          {
+            type: "input",
+            name: "roleid",
+            message: "What is the role id for this employee?",
+          },
+    ]).then(function (data) {
+        db.query("INSERT INTO roles SET ?", {
+            first_name: data.first,
+            last_name: data.last,
+            manager_id: data.managerid,
+            role_id: data.roleid,
+
         },
             function (err) {
                 if (err) throw err
@@ -123,6 +204,13 @@ function addDept() {
     })
 }
 function Quit() { process.exit }
+
+function updateRole() {db.query('SELECT first_name, last_name FROM employees FOR JSON AUTO', function (err, data){
+    if (err) {throw error;
+    }else {const newArray=data.map(obj => {return[obj.first_name,obj.last_name].join(" ")});
+    console.log(newArray);}
+    });
+}
 
 Prompt();
 
