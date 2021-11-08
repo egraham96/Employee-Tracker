@@ -19,7 +19,7 @@ First, clone this repository. Navigate to the directory containing repository in
 ## Preview of Working Site:
 ![Screenshot of Deployed Application](Assets/ScreenshotofDeployedApplication.PNG)
 
-[Video Showing How Application Can Be Used](https://drive.google.com/file/d/1wdyNE25-Ajihqkbtn06rYIpnfbU3bH2x/view)
+[Video Showing How Application Can Be Used](https://watch.screencastify.com/v/HAsKHyfmMpqpEpCWhIte)
 
 
 ## How to Contribute:
