@@ -10,7 +10,8 @@ First, clone this repository. Navigate to the directory containing repository in
 * Javascript
 * [Node JS](https://nodejs.org/en/)
 * [Inquirer NPM](https://www.npmjs.com/package//inquirer)
-* [FS NPM](https://www.npmjs.com/package/fs)
+* [My SQL](https://www.npmjs.com/package/mysql)
+* [Console.Table](https://www.npmjs.com/package/console.table)
 
 
 ## Deployed Links:
