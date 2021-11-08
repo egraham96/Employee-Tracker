@@ -18,13 +18,13 @@ VALUES ("CEO", 150000, 1),
        ("Technical Support Agent", 75000, 7),
        ("Software Engineer", 125000, 8);
 
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Emma", "Graham", 3, 1),
+INSERT INTO employees (first_name, last_name, roles_id, manager_id)
+VALUES ("Emma", "Graham", 3, 4),
        ("Alec", "Schindler", 2, null),
        ("Adele", "Maxwell", 3, null),
        ("Marissa", "Tuttle", 4, null),
        ("Julia", "Graham", 5, 1),
        ("Oliver", "Graham", 6, null),
        ("Tim", "Graham", 7, null),
-       ("Alfonso", "Gonzalez", 8, 1);
+       ("Alfonso", "Gonzalez", 8, 8);
        

@@ -88,7 +88,7 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-    db.query(`SELECT roles.id, roles.title, roles.salary FROM roles
+    db.query(`SELECT roles.id, roles.title, roles.salary, department.dept_name AS 'department' FROM roles
     JOIN department ON department.id = roles.department_id
     ORDER BY roles.id`, function (err, results) {
         if (err) throw error;
@@ -98,12 +98,25 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-    db.query('SELECT * FROM employees', function (err, results) {
+    db.query(`SELECT employees.id, 
+    employees.first_name, 
+    employees.last_name, 
+    roles.title, 
+    roles.salary, 
+    dept_name AS 'department',
+    CONCAT(e.first_name, ' ',e.last_name) AS manager FROM employees
+    INNER JOIN roles ON roles.id = employees.roles_id 
+    INNER JOIN department ON department.id = roles.department_id
+    LEFT JOIN employees e ON employees.manager_id = e.id
+    ORDER BY employees.id`, function (err, results) {
         if (err) throw err;
         console.table(results);
         Prompt();
     });
 }
+
+
+
 
 function addDept() {
     inquirer.prompt([
@@ -126,10 +139,28 @@ function addDept() {
     })
 }
 
+var roleOptions = [];
+function chooseRole() {
+    db.query(`SELECT roles.title FROM roles`, 
+    (err, results) => {
+        if (err) {
+            console.log(err);
+            }
+        for (var i = 0; i < results.length; i++) {
+            roleOptions.push(results[i].title);
+        }
+    })
+    return roleOptions;
+};
+
+
+
+
+
 
 function addRole() {
     db.query(`SELECT department.id, department.dept_name FROM department`, (err, results) => {
-    const deptlist = results.map(({ dept_name, id }) => ({ name: dept_name, value: id }));
+    const deptlist = results.map((obj) => ({ name: obj.dept_name, value: obj.id }));
     inquirer.prompt([
         {
             type: 'input',
@@ -156,7 +187,7 @@ function addRole() {
         },
             function (err) {
                 if (err) throw err
-                console.log("New Role Entered");
+                console.log("New Role Entered!!!");
                 Prompt();
             }
         )
@@ -166,6 +197,9 @@ function addRole() {
 }
 
 function addEmp() {
+    db.query(`SELECT id, first_name, last_name FROM employees WHERE manager_id IS NULL`, function (err, results) {
+        const managerOptions = results.map(({id, first_name, last_name }) => ({name: `${first_name} ${last_name}`, value: id}));
+
     inquirer.prompt([
         {
             type: "input",
@@ -178,21 +212,26 @@ function addEmp() {
             message: "What is the employee's last name?"
           },
           {
-            type: "input",
-            name: "managerid",
-            message: "What is the Manager ID for this employee ?",
+            type: "list",
+            name: "manager",
+            message: "Who is this employee's manager?",
+            choices: managerOptions
           },
           {
-            type: "input",
-            name: "roleid",
-            message: "What is the role id for this employee?",
-          },
+            type: "list",
+            name: "role",
+            message: "What is the employee's role?",
+            choices: chooseRole()
+          }
     ]).then(function (data) {
-        db.query("INSERT INTO roles SET ?", {
+        let finalroleId= chooseRole().indexOf(data.role) +1;
+        console.log(finalroleId)
+        let managerId = managerOptions.indexOf(results.managerid)
+        db.query("INSERT INTO employees SET ?", {
             first_name: data.first,
             last_name: data.last,
-            manager_id: data.managerid,
-            role_id: data.roleid,
+            manager_id: managerId,
+            roles_id: finalroleId
 
         },
             function (err) {
@@ -202,8 +241,8 @@ function addEmp() {
             }
         )
 
-    })
-}
+    });
+})}
 function Quit() { process.exit }
 
 function updateRole() {db.query('SELECT first_name, last_name FROM employees FOR JSON AUTO', function (err, data){
