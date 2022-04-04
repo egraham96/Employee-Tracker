@@ -3,20 +3,19 @@
 require('dotenv').config()
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const consoleTable = require('console.table');
-const PORT = process.env.PORT || 3020;
+const PORT = 3020;
 //const app = express();
 
-// Express middleware
+//Express middleware
 //app.use(express.urlencoded({ extended: false }));
 //app.use(express.json());
 
 //Connect to MySQL Database
 const db = mysql.createConnection(
     {
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
+        host: 'localhost',
+        user: 'root',
+        password: process.env.DB_PASSWORD,
         database: 'employee_db'
     },
     console.log(`Connected to employee_db database on port ${PORT}`)
@@ -48,7 +47,7 @@ const Prompt = () => {
             },
         ]).then(data => {
             let option = data.option;
-            //console.log(option);
+            console.log(option);
             if (option == 'View All Departments?') {
                 //console.log("view depts");
                 viewDepartments();
@@ -283,6 +282,6 @@ Prompt();
 
 
 
-/*app.listen(PORT, () => {
+//app.listen(PORT, () => {
  //console.log(`Server running on port ${PORT}`);
- //});*/
+ //});
